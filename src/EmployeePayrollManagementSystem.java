@@ -2,49 +2,107 @@ package Employeepayrollmanagement;
 import java.util.Scanner;
 
 public class EmployeePayrollManagementSystem {
+
     public static void main(String[] args) {
+
         Scanner sc = new Scanner(System.in);
 
-        PayrollSystem payroll =new PayrollSystem(101, 10);
-        HR hr =new HR(1, "Aiswarya");
-        Manager manager =new Manager(201, "Ananyaa");
+        PayrollSystem payroll = new PayrollSystem(101, 10);
 
-        System.out.print("Enter Employee ID: ");
-        int empId = sc.nextInt();
-        sc.nextLine();
+        HR hr = new HR(1, "Aiswarya");
+        Manager manager = new Manager(201, "Ananyaa");
 
-        System.out.print("Enter Employee Name: ");
-        String empName = sc.nextLine();
+        while (true) {
 
-        System.out.print("Enter Designation: ");
-        String designation = sc.nextLine();
+            System.out.println("\n===== MENU =====");
+            System.out.println("1. Add Employee");
+            System.out.println("2. Display All Employees");
+            System.out.println("3. Approve Attendance");
+            System.out.println("4. View Salary Slip");
+            System.out.println("5. Exit");
 
-        System.out.print("Enter Basic Salary: ");
-        double salary = sc.nextDouble();
+            System.out.print("Enter choice: ");
+            int choice = sc.nextInt();
+            sc.nextLine();
 
-        Employee emp =new Employee(empId,empName,designation,salary);
+            switch (choice) {
 
-        hr.addEmp(payroll.employeeList,emp,0);
+                case 1: {
 
-        System.out.print("Enter Days Present: ");
+                    System.out.print("ID: ");
+                    int id = sc.nextInt();
+                    sc.nextLine();
 
-        int days = sc.nextInt();
+                    System.out.print("Name: ");
+                    String name = sc.nextLine();
 
-        // Mark attendance
-        hr.markAttendance(emp, days);
+                    System.out.print("Designation: ");
+                    String des = sc.nextLine();
 
-        // Display employee details
-        emp.displayEmployee();
+                    System.out.print("Salary: ");
+                    double sal = sc.nextDouble();
 
-        // Manager approves attendance
-        manager.approveAttendance(emp);
+                    Employee emp = new Employee(id, name, des, sal);
 
-        // Salary calculation
-        SalarySlip slip = payroll.calculateSalary(emp);
+                    hr.addEmp(payroll, emp);
 
-        // Generate payslip
-        payroll.generatePayslip(slip);
+                    System.out.print("Days Present: ");
+                    int days = sc.nextInt();
 
-        sc.close();
+                    hr.markAttendance(emp, days);
+
+                    break;
+                }
+
+                case 2: {
+
+                    payroll.displayAllEmployees();
+                    break;
+                }
+
+                case 3: {
+
+                    System.out.print("Enter Employee ID: ");
+                    int id = sc.nextInt();
+
+                    Employee emp = payroll.getEmployeeById(id);
+
+                    if (emp != null) {
+                        manager.approveAttendance(emp);
+                    } else {
+                        System.out.println("Employee not found!");
+                    }
+
+                    break;
+                }
+
+                case 4: {
+
+                    System.out.print("Enter Employee ID: ");
+                    int id = sc.nextInt();
+
+                    Employee emp = payroll.getEmployeeById(id);
+
+                    if (emp != null) {
+                        payroll.viewSalarySlip(emp);
+                    } else {
+                        System.out.println("Employee not found!");
+                    }
+
+                    break;
+                }
+
+                case 5: {
+
+                    System.out.println("Exiting system...");
+                    sc.close();
+                    return;
+                }
+
+                default: {
+                    System.out.println("Invalid choice!");
+                }
+            }
+        }
     }
 }
