@@ -130,6 +130,7 @@ Exiting system...
 ```
 ## Tool or Technologies used
 - Java (Core Java)
+- VS code
 - Console-based Application
 - Scanner class (for user input)
 - Arrays (for data storage)
